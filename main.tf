@@ -23,5 +23,5 @@ module "computo" {
 
   # Conectamos EC2 con las salidas (outputs) del módulo de red
   subnet_id         = module.redes.public_subnet_1_id
-  security_group_id = module.redes.aws_security_group.ssh_access
+  security_group_id = module.redes.id_sg_ssh
 }
