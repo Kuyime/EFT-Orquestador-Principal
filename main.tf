@@ -7,21 +7,17 @@ data "aws_iam_role" "lab_role" {
   name = "LabRole"
 }
 
-# 1. Llamada al Módulo de Redes (VPC)
+# 1. Llamada a TU Módulo de Redes
 module "redes" {
-  # Apuntamos a la última versión con la documentación corregida
-  source = "git::https://github.com/Ignaciov1/terraform-aws-vpc-AUY1105-grupo-3.git?ref=v1.1.0"
-
-  # Pasamos la variable obligatoria
+  source = "git::https://github.com/Kuyime/EFT-Modulo-Redes.git?ref=v1.0.0"
   lab_role_arn = data.aws_iam_role.lab_role.arn
 }
 
-# 2. Llamada al Módulo de Cómputo (EC2)
+# 2. Llamada a TU Módulo de Cómputo
 module "computo" {
-  # Apuntamos a la última versión con la documentación corregida
-  source = "git::https://github.com/Ignaciov1/terraform-aws-ec2-AUY1105-grupo-3.git?ref=v0.1.1"
-
-  # Conectamos EC2 con las salidas (outputs) del módulo de red
+  source = "git::https://github.com/Kuyime/EFT-Modulo-Computo.git?ref=v1.0.0"
+  
+  # Y aquí mantenemos la corrección que hicimos antes
   subnet_id         = module.redes.public_subnet_1_id
-  security_group_id = module.redes.aws_security_group.ssh_access
+  security_group_id = module.redes.id_sg_ssh
 }
